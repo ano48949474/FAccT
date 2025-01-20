@@ -1,4 +1,4 @@
-# FAccT
+# Topological Fairness in Graphs: Exploring Structural Bias and Its Impact on Link Prediction
 
 ## Abstract
 
