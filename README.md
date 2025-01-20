@@ -1,6 +1,6 @@
 # Topological Fairness in Graphs: Exploring Structural Bias and Its Impact on Link Prediction
 
-This anonymized repository provides Python code to reproduce experiments from the paper _"Topological Fairness in Graphs: Exploring Structural Bias and Its Impact on Link Prediction"_, submited to The 2025 ACM Conference of Fairness, Accountability, and Transparency (FaccR' 25).
+This anonymized repository provides Python code to reproduce experiments from the paper _"Topological Fairness in Graphs: Exploring Structural Bias and Its Impact on Link Prediction"_, submited to The 2025 ACM Conference of Fairness, Accountability, and Transparency (FaccT' 25).
 
 ## Abstract
 
