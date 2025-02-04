@@ -2,13 +2,13 @@ import numpy as np
 import networkx as nx
 
 
-def generator(n, m, size_ratio, beta, scenario, scale=None, seed=13):
+def generator(n, m, size_ratio, alpha, scenario, scale=None, seed=13):
     """
     Generate a synthetic graph based on the specified scenario.
 
     This function creates a graph where nodes are added iteratively as in Barabasi-Albert's method,
     with edge creation influenced by the given scenario (political, social, or collaborative), homophily
-    parameter beta, and other parameters. Each node is assigned a "sensitive attribute"
+    parameter alpha, and other parameters. Each node is assigned a "sensitive attribute"
     used to guide edge formation probabilities.
 
     Parameters:
@@ -19,7 +19,7 @@ def generator(n, m, size_ratio, beta, scenario, scale=None, seed=13):
         Base number for new neigbors of incoming nodes.
     size_ratio : float
         Proportion of non-sensitive nodes.
-    beta : float
+    alpha : float
         Parameter controlling the tendency of nodes to connect with others of the same
         sensitive attribute. Higher values imply stronger homophily.
     scenario : str
@@ -53,7 +53,7 @@ def generator(n, m, size_ratio, beta, scenario, scale=None, seed=13):
             np.array(list(sensitive_attribute_dict.values())[:-1]) == new_node_attribute
         ).astype(int)
         adjusted_degrees = degrees + (
-            (np.exp(beta) - 1) * same_sensitive_attribute_mask
+            (np.exp(alpha) - 1) * same_sensitive_attribute_mask
         )
         attachment_probas = adjusted_degrees / np.sum(adjusted_degrees)
 
