@@ -11,7 +11,7 @@ def get_grid(param_values):
     grid = list(
         product(
             param_values["size_ratio"],
-            param_values["beta"],
+            param_values["alpha"],
         )
     )
     return grid
@@ -42,71 +42,71 @@ def generate_graphs_grid(scenario, n_params_values, seed):
     -------
     list
         A list of tuples, where each tuple contains:
-        - A tuple of parameter values (size_ratio, beta).
+        - A tuple of parameter values (size_ratio, alpha).
         - A generated graph object.
     """
     if scenario == "social":
         param_values = {
             "size_ratio": [round(i, 3) for i in np.linspace(0.5, 0.9, n_params_values)],
-            "beta": [
+            "alpha": [
                 round(i, 3) for i in np.linspace(0, 3.8, n_params_values)
             ],
         }
     else:
         param_values = {
             "size_ratio": [round(i, 3) for i in np.linspace(0.5, 0.9, n_params_values)],
-            "beta": [
+            "alpha": [
                 round(i, 3) for i in np.linspace(0, 8, n_params_values)
             ],
         }
     if scenario == "political":
         G_list = [
             (
-                (size_ratio, beta),
+                (size_ratio, alpha),
                 generator(
                     1222,
                     m=14,
                     size_ratio=size_ratio,
-                    beta=beta,
+                    alpha=alpha,
                     scale=0.08,
                     scenario="political",
                     seed=seed,
                 ),
             )
-            for size_ratio, beta in tqdm(get_grid(param_values))
+            for size_ratio, alpha in tqdm(get_grid(param_values))
         ]
     elif scenario == "social":
 
         G_list = [
             (
-                (size_ratio, beta),
+                (size_ratio, alpha),
                 generator(
                     1034,
                     m=13,
                     size_ratio=size_ratio,
-                    beta=beta,
+                    alpha=alpha,
                     scenario="social",
                     seed=seed,
                 ),
             )
-            for size_ratio, beta in tqdm(get_grid(param_values))
+            for size_ratio, alpha in tqdm(get_grid(param_values))
         ]
 
     elif scenario == "collab":
         G_list = [
             (
-                (size_ratio, beta),
+                (size_ratio, alpha),
                 generator(
                     860,
                     m=3,
                     size_ratio=size_ratio,
-                    beta=beta,
+                    alpha=alpha,
                     scenario="collab",
                     scale=1,
                     seed=seed,
                 ),
             )
-            for size_ratio, beta in tqdm(get_grid(param_values))
+            for size_ratio, alpha in tqdm(get_grid(param_values))
         ]
 
     return G_list
