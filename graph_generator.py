@@ -88,14 +88,14 @@ def generator(n, m, size_ratio, alpha, scenario, scale=None, seed=13):
                 round(len(attachment_probas)),
                 round(0.55 * len(neighs) + 3),
             )
-            a, b = 10e3, 1
+            a, b, c = 10e3, 1, 1
             neighbor_mask = np.array(
                 [a if node in neighs else 0 for node in list(G.nodes())]
             )
             neighbor_2_mask = np.array(
                 [b if node in neighs_of_neighs else 0 for node in list(G.nodes())]
             )
-            post_anchor_attachment_probas = 1 + neighbor_mask + neighbor_2_mask
+            post_anchor_attachment_probas = c + neighbor_mask + neighbor_2_mask
             post_anchor_attachment_probas = post_anchor_attachment_probas / np.sum(
                 post_anchor_attachment_probas
             )
@@ -120,19 +120,19 @@ def generator(n, m, size_ratio, alpha, scenario, scale=None, seed=13):
                 1, round(np.random.gamma(shape=scale, scale=(1 / scale) * m) + 1)
             )
             new_m = min(new_m, len(neighs) + 1)
-
+            a, b = np.exp(10), 10e-15
             neighbor_mask = np.array(
-                [1 if node in neighs else 0 for node in list(G.nodes())]
+                [a if node in neighs else 0 for node in list(G.nodes())]
             )
-            adjusted_degrees = np.ones(len(G)) * 10e-15 + ((np.exp(10)) * neighbor_mask)
-            attachment_probas = adjusted_degrees / np.sum(adjusted_degrees)
+            post_anchor_attachment_probas = b + neighbor_mask
+            post_anchor_attachment_probas = post_anchor_attachment_probas / np.sum(post_anchor_attachment_probas)
 
             chosen_nodes = [anchor] + list(
                 np.random.choice(
                     list(range(len(attachment_probas))),
                     replace=False,
                     size=new_m - 1,
-                    p=attachment_probas,
+                    p=post_anchor_attachment_probas,
                 )
             )
         new_edges = list(
