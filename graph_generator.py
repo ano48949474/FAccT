@@ -72,6 +72,9 @@ def generator(n, m, size_ratio, alpha, scenario, scale=None, seed=13):
             )
         elif scenario == "social":
 
+            adjusted_degrees = 1 + ((np.exp(alpha) - 1) * same_sensitive_attribute_mask)
+            attachment_probas = adjusted_degrees / np.sum(adjusted_degrees)
+
             anchor = np.random.choice(
                 list(range(len(attachment_probas))),
                 p=attachment_probas,
@@ -92,7 +95,7 @@ def generator(n, m, size_ratio, alpha, scenario, scale=None, seed=13):
             neighbor_2_mask = np.array(
                 [b if node in neighs_of_neighs else 0 for node in list(G.nodes())]
             )
-            post_anchor_attachment_probas = neighbor_mask + neighbor_2_mask
+            post_anchor_attachment_probas = 1 + neighbor_mask + neighbor_2_mask
             post_anchor_attachment_probas = post_anchor_attachment_probas / np.sum(
                 post_anchor_attachment_probas
             )
@@ -102,7 +105,7 @@ def generator(n, m, size_ratio, alpha, scenario, scale=None, seed=13):
                     list(range(len(attachment_probas))),
                     replace=False,
                     size=new_m - 1,
-                    p=attachment_probas,
+                    p=post_anchor_attachment_probas,
                 )
             )
         elif scenario == "collab":
