@@ -207,13 +207,9 @@ class StructuralMeasures:
         np.fill_diagonal(accessibility_matrix, 0)
 
         #############################################################
-        nodes_self = list(self.G.nodes())
-        category_1_nodes = [i for i in nodes_self if self.G.nodes[i]["sensitive"] == 1]
-        category_2_nodes = [i for i in nodes_self if self.G.nodes[i]["sensitive"] == 0]
-
         intra_category_mask = np.zeros_like(accessibility_matrix)
-        for node_i in category_1_nodes:
-            for node_j in category_1_nodes:
+        for node_i in self.sensitive_nodes:
+            for node_j in self.sensitive_nodes:
                 intra_category_mask[node_i, node_j] = 1
         intra_category_accessibility_1 = np.multiply(
             accessibility_matrix, intra_category_mask
@@ -221,8 +217,8 @@ class StructuralMeasures:
         average_intra_category_accessibility_1 = np.mean(intra_category_accessibility_1)
 
         intra_category_mask = np.zeros_like(accessibility_matrix)
-        for node_i in category_2_nodes:
-            for node_j in category_2_nodes:
+        for node_i in self.non_sensitive_nodes:
+            for node_j in self.non_sensitive_nodes:
                 intra_category_mask[node_i, node_j] = 1
         intra_category_accessibility_2 = np.multiply(
             accessibility_matrix, intra_category_mask
@@ -230,8 +226,8 @@ class StructuralMeasures:
         average_intra_category_accessibility_2 = np.mean(intra_category_accessibility_2)
 
         intra_category_mask = np.zeros_like(accessibility_matrix)
-        for node_i in category_1_nodes:
-            for node_j in category_2_nodes:
+        for node_i in self.sensitive_nodes:
+            for node_j in self.non_sensitive_nodes:
                 intra_category_mask[node_i, node_j] = 1
         intra_category_accessibility_1_2 = np.multiply(
             accessibility_matrix, intra_category_mask
