@@ -6,7 +6,7 @@ from sklearn.linear_model import LinearRegression
 warnings.filterwarnings("ignore", category=FutureWarning, module="networkx")
 
 
-class StructuralMetrics:
+class StructuralMeasures:
     """
     Implementation of structural bias measures
     """
