@@ -13,7 +13,7 @@ from sklearn.metrics import (
     accuracy_score,
 )
 
-from structural_metrics import StructuralMetrics
+from structural_measures import StructuralMeasures
 from fairness_metrics import (
     representation_bias,
     demographic_parity,
@@ -26,7 +26,7 @@ def measure_computer(args):
     params, G, scenario, seed = args
     os.makedirs(f"results/final_{seed}/{scenario}/{params}", exist_ok=True)
 
-    measures_computer = StructuralMetrics(G)
+    measures_computer = StructuralMeasures(G)
 
     measures_list.append(
         ["closeness", measures_computer.omega(measures_computer.closeness_)]
